@@ -1,16 +1,23 @@
-/**
- * @license
- * jQuery Tools @VERSION / Flashembed - New wave Flash embedding
- *
- * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
- *
- * http://flowplayer.org/tools/toolbox/flashembed.html
- *
- * Since : March 2008
- * Date : @DATE
- */
-(function() {
-
+(function(root, factory) {
+	if (typeof define === 'function' && define.amd) {
+		define([], factory);
+	} else if (typeof exports === 'object') {
+		module.exports = factory();
+	} else {
+		root.flashembed = factory();
+	}
+})(this, function() {
+	/**
+	 * @license
+	 * jQuery Tools @VERSION / Flashembed - New wave Flash embedding
+	 *
+	 * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
+	 *
+	 * http://flowplayer.org/tools/toolbox/flashembed.html
+	 *
+	 * Since : March 2008
+	 * Date : @DATE
+	 */
 	var IE = document.all,
 		URL = 'http://www.adobe.com/go/getflashplayer',
 		VERSION_REGEX = /(\d+)[^\d]+(\d+)[^\d]*(\d*)/,
@@ -65,7 +72,7 @@
 		return newArr;
 	}
 
-	window.flashembed = function(root, opts, conf) {
+	var flashembed = function(root, opts, conf) {
 
 		// root must be found / loaded
 		if (typeof root == 'string') {
@@ -85,7 +92,7 @@
 	};
 
 	// flashembed "static" API
-	var f = extend(window.flashembed, {
+	var f = extend(flashembed, {
 		conf: GLOBAL_OPTS,
 
 		getVersion: function() {
@@ -279,4 +286,6 @@
 			window[opts.id] = document.getElementById(opts.id);
 		}
 	}
-})();
+
+	return flashembed;
+});
