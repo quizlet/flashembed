@@ -43,10 +43,11 @@
 	}
 
 	// simple extend
-	function extend(to, from) {
-		if (from) {
+	function extend(to) {
+		for (var i = 0, args = Array.prototype.slice.call(arguments, 1), len = args.length; i < len; i++) {
+			var from = args[i];
 			for (var key in from) {
-				if (from.hasOwnProperty(key)) {
+				if (Object.prototype.hasOwnProperty.call(from, key)) {
 					to[key] = from[key];
 				}
 			}
@@ -81,7 +82,7 @@
 			opts = { src: opts };
 		}
 
-		return new Flash(root, extend(extend({}, GLOBAL_OPTS), opts), conf);
+		return new Flash(root, extend({}, GLOBAL_OPTS, opts), conf);
 	};
 
 	// flashembed "static" API
