@@ -1,4 +1,4 @@
 flashembed
 ==========
 
-A SWF injector for the modern age.
+Adapted from jQuery Tools, with UMD support.
