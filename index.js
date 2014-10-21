@@ -13,7 +13,6 @@
 
 	var IE = document.all,
 		URL = 'http://www.adobe.com/go/getflashplayer',
-		JQUERY = typeof jQuery == 'function',
 		VERSION_REGEX = /(\d+)[^\d]+(\d+)[^\d]*(\d*)/,
 		GLOBAL_OPTS = {
 			// very common opts
@@ -280,19 +279,4 @@
 			window[opts.id] = document.getElementById(opts.id);
 		}
 	}
-
-	// setup jquery support
-	if (JQUERY) {
-		// tools version number
-		jQuery.tools = jQuery.tools || { version: '@VERSION' };
-
-		jQuery.tools.flashembed = { conf: GLOBAL_OPTS };
-
-		jQuery.fn.flashembed = function(opts, conf) {
-			return this.each(function() {
-				jQuery(this).data("flashembed", flashembed(this, opts, conf));
-			});
-		};
-	}
-
 })();
