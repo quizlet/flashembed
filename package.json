@@ -1,0 +1,8 @@
+{   "name": "flashembed"
+  , "main": "flashembed"
+  , "description": "SWF insertion from jQuery tools, with UMD support"
+  , "version": "0.0.1"
+  , "author": "Karoun Kasraie <karoun@quizlet.com>"
+  , "keywords": ["flash", "swf", "embed"]
+  , "repository": "git://github.com/quizlet/flashembed"
+}
