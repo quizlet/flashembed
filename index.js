@@ -34,7 +34,7 @@
 
 			// flashembed specific options
 			version: [3, 0],
-			onFail: null,
+			onEmbed: null,
 			expressInstall: null,
 			w3c: false,
 			bustCache: false
@@ -73,7 +73,6 @@
 	}
 
 	var flashembed = function(root, opts, conf) {
-
 		// root must be found / loaded
 		if (typeof root == 'string') {
 			root = document.getElementById(root.replace('#', ''));
@@ -188,7 +187,7 @@
 
 			// not allowed params
 			opts.width = opts.height = opts.id = opts.w3c = opts.src = null;
-			opts.onFail = opts.version = opts.expressInstall = null;
+			opts.onEmbed = opts.version = opts.expressInstall = null;
 
 			for (var key in opts) {
 				if (opts[key]) {
@@ -245,6 +244,11 @@
 		// version is ok
 		if (f.isSupported(opts.version)) {
 			root.innerHTML = f.getHTML(opts, conf);
+
+			// onEmbed(true)
+			if (opts.onEmbed) {
+				opts.onEmbed.call(null, true, this);
+			}
 		// express install
 		} else if (opts.expressInstall && f.isSupported([6, 65])) {
 			root.innerHTML = f.getHTML(extend(opts, { src: opts.expressInstall }), {
@@ -252,16 +256,24 @@
 				MMplayerType: 'PlugIn',
 				MMdoctitle: document.title
 			});
+
+			// onEmbed(false)
+			if (opts.onEmbed) {
+				var ret = opts.onEmbed.call(null, false, this);
+				if (typeof ret == 'string') {
+					root.innerHTML = ret;
+				}
+			}
 		} else {
 			// fail #2.1 custom content inside container
 			if (!root.innerHTML.replace(/\s/g, '')) {
-				var html = "<h2>Flash version " + opts.version + " or greater is required</h2>";
-				html += "<h3>" + (VERSION[0] > 0 ?
-					"Your version is " + VERSION :
-					"You have no flash plugin installed") + "</h3>";
+				var html = '<h2>Flash version ' + opts.version + ' or greater is required</h2>';
+				html += '<h3>' + (VERSION[0] > 0 ?
+					'Your version is ' + VERSION :
+					'You have no flash plugin installed') + '</h3>';
 				html += root.tagName == 'A' ?
-					"<p>Click here to download latest version</p>" :
-					"<p>Download latest version from <a href='" + URL + "'>here</a></p>";
+					'<p>Click here to download latest version</p>' :
+					'<p>Download latest version from <a href="' + URL + '">here</a></p>';
 
 				root.innerHTML = html;
 
@@ -272,9 +284,9 @@
 				}
 			}
 
-			// onFail
-			if (opts.onFail) {
-				var ret = opts.onFail.call(this);
+			// onEmbed(false)
+			if (opts.onEmbed) {
+				var ret = opts.onEmbed.call(null, false, this);
 				if (typeof ret == 'string') {
 					root.innerHTML = ret;
 				}
