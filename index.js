@@ -6,7 +6,7 @@
 	} else {
 		root.flashembed = factory();
 	}
-})(this, function() {
+})(window, function() {
 	/**
 	 * @license
 	 * jQuery Tools @VERSION / Flashembed - New wave Flash embedding
